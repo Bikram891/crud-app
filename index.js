@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const connectDB = require('./config/db');
+const connectDB = require('./src/config/db');
 const app = express();
-const userRoutes = require('../src/router/userRouter');
+const userRoutes = require('./src/router/userRouter');
 
 
 
@@ -10,9 +10,6 @@ app.use(express.json());
 
 // Routes
 app.use('/api/users', userRoutes);
-
-
-
 
 connectDB();
 
