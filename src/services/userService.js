@@ -1,64 +1,43 @@
 const userRepository = require('../repository/userRepository');
+const ApiError = require('../utils/apiError');
 
-const getAllUsers = async () => {
-  try {
-    return await userRepository.getAllUsers();
-  } catch (error) {
-    throw new Error('Error in retrieving users: ' + error.message);
+const createUser = async (userData) => {
+  const existingUser = await userRepository.getUserByEmail(userData.email);
+  if (existingUser) {
+    throw new ApiError(409, 'Email already exists');
   }
+  return await userRepository.createUser(userData);
 };
 
 const getUserById = async (id) => {
-  try {
-    return await userRepository.getUserById(id);
-  } catch (error) {
-    throw new Error('Error in retrieving user by ID: ' + error.message);
+  const user = await userRepository.getUserById(id);
+  if (!user) {
+    throw new ApiError(404, 'User not found');
   }
+  return user;
 };
-
-const createUser = async (userData) => {
-  try {
-    return await userRepository.createUser(userData);
-  } catch (error) {
-    throw error;
-  }
-};
-
 const updateUser = async (id, updateData) => {
-  try {
-    return await userRepository.updateUser(id, updateData);
-  } catch (error) {
-    throw new Error('Error in updating user: ' + error.message);
+  const user = await userRepository.getUserById(id);
+  if (!user) {
+    throw new ApiError(404, 'User not found');
   }
+  return await userRepository.updateUser(id, updateData);
 };
 
-const patchUpdateUser = async (id, updateData) => {
-  try {
-    return await userRepository.patchUpdateUser(id, updateData);
-  } catch (error) {
-    throw new Error('Error in patch updating user: ' + error.message);
+const getAllUsers = async () => {
+  return await userRepository.getAllUsers();
+};
+
+const deleteAllUsers = async() => {
+  return await userRepository.deleteMany();
+}
+
+const deleteOne = async(id) => {
+  const user = await userRepository.getUserById(id);
+  if (!user) {
+    throw new ApiError(404, 'User not found');
   }
-};
+  return await userRepository.deleteUserById(id);
+}
 
-const deleteUser = async (id) => {
-    return await userRepository.deleteUser(id);
-};
-
-const deleteMany = async () => {
-  try {
-    return await userRepository.deleteMany();
-  } catch (error) {
-    throw new Error('Error in deleting all users: ' + error.message);
-  }
-};
-
-module.exports = {
-  getAllUsers,
-  createUser,
-  getUserById,
-  updateUser,
-  deleteUser,
-  deleteMany,
-  patchUpdateUser,
-};
-
+module.exports = { createUser, getUserById, getAllUsers,updateUser,deleteAllUsers,deleteOne};
