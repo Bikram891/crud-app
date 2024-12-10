@@ -28,10 +28,7 @@ router.put(
         .optional()
         .isLength({ min: 2, max: 32 })
         .withMessage('Name must be between 2 and 32 characters'),
-      body('password')
-        .optional()
-        .isLength({ min: 6 })
-        .withMessage('Password must be at least 6 characters long'),
+      body('address'), 
     ]),
     userController.updateUser
   );
