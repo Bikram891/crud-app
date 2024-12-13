@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./src/config/db');
 const userRoutes = require('./src/router/userRouter');
 const errorHandler = require('./src/middleware/errorHandler');
+const userAuthRouters = require('./src/router/userAuthRouter');
 
 dotenv.config();
 connectDB();
@@ -10,6 +11,7 @@ connectDB();
 const app = express();
 app.use(express.json());
 app.use('/api/users', userRoutes);
+app.use('/api/users',userAuthRouters);
 app.use(errorHandler);
 
 // ///-------------SERVER START-------------------------///
