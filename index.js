@@ -1,17 +1,24 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./src/config/db');
-const userRoutes = require('./src/router/userRouter');
 const errorHandler = require('./src/middleware/errorHandler');
 const userAuthRouters = require('./src/router/userAuthRouter');
+const authenticateToken = require('./src/middleware/authenticateToken');
+const userRoutes = require('./src/router/userRouter'); //
 
 dotenv.config();
 connectDB();
 
 const app = express();
+
+
 app.use(express.json());
-app.use('/api/users', userRoutes);
-app.use('/api/users',userAuthRouters);
+
+// Define routes
+app.use('/api/auth', userAuthRouters); // Includes login and createUser, no token validation here
+app.use('/api/users',authenticateToken, userRoutes,); // All other routes require token validation
+
+
 app.use(errorHandler);
 
 // ///-------------SERVER START-------------------------///
