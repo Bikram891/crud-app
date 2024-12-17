@@ -17,7 +17,7 @@ const login = async (email, password) => {
       throw new Error('Invalid email or password');
     }
 
-    const token = generateToken({ id: user._id, email: user.email });
+    const token = generateToken({ id: user._id, email: user.email,role: user.role });
     console.log('Generated Token:', token);
     return { user, token };
   } catch (error) {
