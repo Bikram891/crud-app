@@ -16,7 +16,7 @@ const getUserById = async (id) => {
   }
   return user;
 };
-const updateUser = async (id, updateData) => {
+const updateUser = async (id,updateData) => {
   const user = await userRepository.getUserById(id);
   if (!user) {
     throw new ApiError(404, 'User not found');
@@ -41,3 +41,18 @@ const deleteOne = async(id) => {
 }
 
 module.exports = { createUser, getUserById, getAllUsers,updateUser,deleteAllUsers,deleteOne};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
