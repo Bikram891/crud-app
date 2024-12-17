@@ -1,15 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
-
-//Generate a JWT Token
-const generateToken = (payload)=>{
-    return jwt.sign(payload,SECRET_KEY,{expiresIn:'1hr'});
+const generateToken = (payload) => {
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
-//verify a JWT Token
-const verifyToken = (token) => {
-    return jwt.verify(token,SECRET_KEY);
-};
-
-module.exports = {generateToken,verifyToken};
+module.exports = { generateToken };
