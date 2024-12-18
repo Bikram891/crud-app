@@ -22,17 +22,35 @@ const createUser = async (req, res, next) => {
 const getAllUsers = async (req, res, next) => {
   try {
     const users = await userService.getAllUsers();
+    const page = parseInt(req.query.page) || null;
+    const limit = parseInt(req.query.limit) || null;
+     const result = await paginate(User, page, limit, ['password']);
+     if(page && limit){
     res.status(200).json({
+      success: true,
+      metadata: {
+        totalUsers: result.totalDocuments,
+        size:10,
+        page: result.currentPage,
+        totalPages:limit,
+      },
+      data: result.data,
+    });
+  }
+  else{
+    return res.status(200).json({
       success: true,
       data: users,
     });
+  }
+   
   } catch (error) {
     res.status(500).json({
       sucess:false,
       message:error.message || 'Internal Server Error',
     });
   }
-};
+}
 
 const getUserById = async (req, res, next) => {
   try {
