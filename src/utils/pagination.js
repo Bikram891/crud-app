@@ -3,10 +3,8 @@ const paginate = async (model, page = 1, limit = 10, excludeFields = []) => {
       const startIndex = (page - 1) * limit;
   
       // Exclude fields, e.g., password
-      const excludedFields = excludeFields.length
-        ? excludeFields.map((field) => `-${field}`).join(' ')
-        : '';
-  
+       const excludedFields = excludeFields.map((field) => `-${field}`).join(' ');
+        
       // Fetch data with pagination
       const data = await model
         .find()
