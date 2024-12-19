@@ -24,7 +24,7 @@ const authorizeRole = (requiredRoles) => {
             });
       }
 
-      next(); // User is authorized, proceed to the route
+      next(); 
     } catch (error) {
       return res.status(401).json({
         code:401,
